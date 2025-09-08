@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches: [main] # Запускается при пуше в main
+  pull_request:
+    branches: [main] # Запускается при создании PR в main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Рабочая машина GitHub
+
+    steps:
+      - uses: actions/checkout@v3 # Клонируем репозиторий
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20 # Устанавливаем Node.js
+
+      - name: Install dependencies
+        run: npm ci # Устанавливаем зависимости
+
+      - name: Build TypeScript
+        run: npm run build # Компилируем проект
+
+      - name: Run tests
+        run: echo "No tests yet" # Тут будут тесты позже
