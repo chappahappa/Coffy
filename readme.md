@@ -1,7 +1,6 @@
 
 # Coffy ☕
 
-[![CI](https://github.com/твой-username/deepcoffee/actions/workflows/ci.yml/badge.svg)](https://github.com/твой-username/deepcoffee/actions)
 [![Node.js](https://img.shields.io/badge/Node.js-20-blue?logo=node.js)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red)](#-лицензия)
 
