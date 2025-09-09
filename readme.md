@@ -1,18 +1,10 @@
 
-# DeepCoffeeBot ☕
+# Coffy ☕
 
-[![CI](https://github.com/твой-username/deepcoffee/actions/workflows/ci.yml/badge.svg)](https://github.com/твой-username/deepcoffee/actions)
 [![Node.js](https://img.shields.io/badge/Node.js-20-blue?logo=node.js)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red)](#-лицензия)
 
-**DeepCoffee Bot** — интеллектуальный Telegram бот на Node.js и TypeScript, использующий `grammy` и OpenAI для интерактивного общения. Redis хранит сессии пользователей. Полностью готов к CI/CD и продакшен-развёртыванию.  
-
----
-
-## 🎥 Демо
-
-![DeepCoffee Bot Demo](https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif)  
-*(пример работы бота: отвечает на запросы и генерирует AI-ответы)*
+**Coffy** — интеллектуальный Telegram бот на Node.js и TypeScript, использующий `grammy` и OpenAI для интерактивного общения. Redis хранит сессии пользователей. Полностью готов к CI/CD и продакшен-развёртыванию.  
 
 ---
 
