@@ -2,8 +2,10 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 
-const dbDir = path.resolve('./data');
+
+const dbDir = './data'; // просто относительный путь
 if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir);
+
 
 const dbPath = path.join(dbDir, 'bot.sqlite');
 const db = new Database(dbPath);
