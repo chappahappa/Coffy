@@ -1,0 +1,1 @@
+export const formatBold = (text: string) => `*${text}*`;
