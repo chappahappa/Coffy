@@ -1,32 +1,40 @@
 import { Context } from "grammy";
-import { dbService } from "../../services/dbService.js";
-import { redisService } from "../../services/redisService.js";
 import { openaiService } from "../../services/openaiService.js";
-import { analyticsService } from "../../services/analyticsService.js";
+import { upsertUser,  addMessage, getLastMessages } from "../../services/database.js";
 
 export const messageHandler = async (ctx: Context) => {
-  const message = ctx.message?.text;
-  const userId = ctx.from?.id;
-  const username = ctx.from?.username || "Unknown";
+    const message = ctx.message?.text || "";
+    const telegramUser = ctx.from;
+    if (!telegramUser) return;
 
-  if (!message || !userId) return;
+    const user = {
+        telegram_id: telegramUser.id,
+        username: telegramUser.username || "",
+        first_name: telegramUser.first_name || "",
+        last_name: telegramUser.last_name || "",
+    };
 
-  // 1️⃣ Логируем сообщение в Redis/analyticsService
-  await analyticsService.logMessage(userId);
-  await redisService.addMessage(userId.toString(), "user", message);
+    // обновляем статистику пользователя
+    upsertUser(user);
 
-  // 2️⃣ Добавляем или обновляем пользователя в users
-  dbService.addOrUpdateUser(userId, username);
+    // сохраняем сообщение пользователя
+    addMessage(user.telegram_id, 'user', message);
 
-  // 3️⃣ Генерируем ответ бота
-  const reply = await openaiService.getResponse(userId.toString(), message);
+    const typingInterval = setInterval(() => ctx.replyWithChatAction("typing"), 1000);
 
-  // 4️⃣ Сохраняем сообщение и ответ бота в messages
-  dbService.addMessage(userId, username, message, reply);
+    try {
+       const context = getLastMessages(user.telegram_id, 20);
 
-  // 5️⃣ Сохраняем ответ в Redis
-  await redisService.addMessage(userId.toString(), "assistant", reply);
+        // объединяем все сообщения в одну строку для контекста
+          const contextText = context.map(msg => `${msg.role}: ${msg.content}`).join("\n");
 
-  // 6️⃣ Отправляем пользователю
-  await ctx.reply(reply);
+          const reply = await openaiService.getResponse(contextText);
+        await ctx.reply(reply);
+
+        // сохраняем ответ бота
+        addMessage(user.telegram_id, 'assistant', reply);
+
+    } finally {
+        clearInterval(typingInterval);
+    }
 };

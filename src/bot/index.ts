@@ -6,6 +6,7 @@ import { startCommand } from "./commands/start.js";
 import { statsCommand } from "./commands/stats.js";
 import { messageHandler } from "./handlers/messageHandler.js";
 import { helpCommand } from "./commands/help.js";
+import "../services/database.js"
 
 const bot = new Bot(config.TELEGRAM_TOKEN);
 
